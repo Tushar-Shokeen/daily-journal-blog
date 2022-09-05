@@ -1,4 +1,9 @@
 //jshint esversion:6
+CLIENT_ID="671008817496-te5ifuv5okhtgvhh5k5h656o9ua0vhue.apps.googleusercontent.com"
+CLIENT_SECRET="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"
+ATLAS_URI="mongodb+srv://tushar:tushar123@projects-cluster.pxzdwv4.mongodb.net/blogDB"
+SECRET = "This is our Secret"
+
 require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -21,7 +26,7 @@ app.use(express.static("public"));
 
 app.use(
   session({
-    secret: process.env.SECRET,
+    secret: SECRET,
     resave: false,
     saveUninitialized: false,
   })
@@ -29,7 +34,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-const uri = process.env.ATLAS_URI;
+const uri = ATLAS_URI;
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.set("useCreateIndex", true);
 
@@ -81,8 +86,8 @@ passport.deserializeUser(function (id, done) {
 passport.use(
   new GoogleStrategy(
     {
-      clientID: process.env.CLIENT_ID,
-      clientSecret: process.env.CLIENT_SECRET,
+      clientID: CLIENT_ID,
+      clientSecret: CLIENT_SECRET,
       callbackURL:
         // "https://protected-hamlet-37960.herokuapp.com/auth/google/dailyjournal",
         "https://daily-blog-journal.herokuapp.com/auth/google/dailyjournal",
